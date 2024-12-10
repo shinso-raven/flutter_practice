@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_multiple/src/Models/question.dart';
+import 'package:quiz_multiple/src/Views/result_screen.dart';
 import 'package:quiz_multiple/src/Views/test_page.dart';
 
 class QuizMultiplePage extends StatelessWidget {
-  const QuizMultiplePage({super.key});
+  QuizMultiplePage({super.key});
+
+  List<String> selectAnswers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,26 @@ class QuizMultiplePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const TestPage(),
+                      builder: (context) => TestPage(onSelectAnswer: (answer) {
+                        selectAnswers.add(answer);
+// selectAnswers.length == questions.length
+                        print(selectAnswers.length);
+                        if (selectAnswers.length > questions.length - 2) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ResulScreen(
+                                    chosenAnswers: selectAnswers,
+                                    onRestart: () {
+                                      //Reiniciar pantalla
+
+                                      selectAnswers = [];
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  QuizMultiplePage()));
+                                    },
+                                  )));
+                        }
+                      }),
                     ),
                   );
                 },
