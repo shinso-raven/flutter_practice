@@ -7,8 +7,6 @@ import '../utilities/constants.dart';
 class LocationScreen extends StatefulWidget {
   LocationScreen({super.key}) {}
 
-  WeatherModel weatherModel = WeatherModel();
-
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
@@ -16,20 +14,19 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   final String timeMessage = "It's 🍦 time in San Francisco!";
   final String temperatureMessage = '32°';
+  WeatherModel weatherModel = WeatherModel();
 
   @override
   void initState() {
     super.initState();
-    getWeatherForecast();
   }
 
-  void getWeatherForecast() async {
-    print("Location screen");
-    // widget.weatherModel.getWeatherData().then((data) {
+  Future getWeatherForecast() async {
+    // weatherModel.getWeatherData().then((data) {
     //   print(data);
     // });
 
-    dynamic data = await widget.weatherModel.getWeatherData();
+    dynamic data = await weatherModel.getWeatherData();
     print(data);
   }
 
@@ -55,18 +52,28 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      //Update with location
+                      await getWeatherForecast();
+                      setState(() {});
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
+                    onPressed: () async {
+                      var cityName = Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return CityScreen();
                       }));
+
+                      var value = await cityName;
+
+                      if (value != null) {
+                        //obtener la infomracion del clima a partir de la ciudad
+                      }
                     },
                     child: Icon(
                       Icons.location_city,

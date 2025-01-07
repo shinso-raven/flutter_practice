@@ -19,9 +19,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
     final location = Location();
     await location.getCurrentPosition();
 
-    // print("Location");
-    // print(location.latitude);
-    // print(location.longitude);
+    print("Location");
+    print(location.latitude);
+    print(location.longitude);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationScreen();

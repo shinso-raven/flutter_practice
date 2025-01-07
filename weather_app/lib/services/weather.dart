@@ -5,16 +5,35 @@ class WeatherModel {
   final String baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
   final String apiKey = '67d1c9926392dc5b0cf30505983addb0';
 
+  Future<dynamic> getCityWeather(String cityName) async {
+    String endpoint = '$baseUrl?q=${cityName}&appid=${apiKey}';
+    print(endpoint);
+    Networking networking = Networking(url: endpoint);
+    var weatherData = await networking.getData();
+    return weatherData;
+  }
+
   Future<dynamic> getWeatherData() async {
     print("getWeatherData");
-    Location location = Location();
-    await location.getCurrentPosition();
+    String endpoint = "texto";
 
-    print(location.latitude);
-    print(location.longitude);
+    try {
+      Location location = Location();
+      print("....");
+      await location.getCurrentPosition();
+      print("cough....");
 
-    String endpoint =
-        '$baseUrl?lat=${location.latitude}&lon=${location.longitude}&appid${apiKey}';
+      print(location.latitude);
+      print(location.longitude);
+
+      endpoint =
+          '$baseUrl?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}';
+      print(endpoint);
+    } catch (e) {
+      print("Boom");
+
+      print(e);
+    }
     print(endpoint);
     Networking networking = Networking(url: endpoint);
     var weatherData = await networking.getData();
