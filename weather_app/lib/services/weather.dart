@@ -13,21 +13,13 @@ class WeatherModel {
     return weatherData;
   }
 
-  Future<dynamic> getWeatherData() async {
+  Future<dynamic> getWeatherData(Location location) async {
     print("getWeatherData");
     String endpoint = "texto";
 
     try {
-      Location location = Location();
-      print("....");
-      await location.getCurrentPosition();
-      print("cough....");
-
-      print(location.latitude);
-      print(location.longitude);
-
       endpoint =
-          '$baseUrl?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}';
+          '$baseUrl?lat=${location.latitude}&lon=${location.longitude}&appid=${apiKey}&units=metric';
       print(endpoint);
     } catch (e) {
       print("Boom");

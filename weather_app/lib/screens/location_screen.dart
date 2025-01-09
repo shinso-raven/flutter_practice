@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/screens/city_screen.dart';
+import 'package:weatherapp/services/location.dart';
 import 'package:weatherapp/services/weather.dart';
 
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
-  LocationScreen({super.key}) {}
+  LocationScreen({super.key, required this.location});
+
+  Location location;
 
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  final String timeMessage = "It's 🍦 time in San Francisco!";
-  final String temperatureMessage = '32°';
+  String timeMessage = "It's 🍦 time in San Francisco!";
+  String temperatureMessage = '32°';
+  String weatherIcon = '☀️';
   WeatherModel weatherModel = WeatherModel();
 
   @override
   void initState() {
     super.initState();
+    getWeatherForecast();
   }
 
   Future getWeatherForecast() async {
@@ -26,8 +31,41 @@ class _LocationScreenState extends State<LocationScreen> {
     //   print(data);
     // });
 
-    dynamic data = await weatherModel.getWeatherData();
+    // Location location = Location();
+    print("....");
+    // await location.getCurrentPosition();
+    // print("cough....");
+
+    print(widget.location.latitude);
+    print(widget.location.longitude);
+
+    dynamic data = await weatherModel.getWeatherData(widget.location);
     print(data);
+    FormatWeatherData(data);
+  }
+
+  void FormatWeatherData(Map<String, dynamic> data) {
+    double temp = 0;
+    int conditionId = 0;
+
+    if (data["main"] != null) {
+      temp = data["main"]["temp"];
+    }
+
+    if (data["weather"] != null) {
+      conditionId = data["weather"][0]["id"];
+    }
+
+    String city = data["name"];
+
+    this.temperatureMessage = "$temp°";
+    this.timeMessage =
+        "${this.weatherModel.getMessage(temp.round())} in $city!";
+    this.weatherIcon = this.weatherModel.getWeatherIcon(conditionId);
+
+    print("Weather Data");
+    print("Temp: $temp --- ConditionId: $conditionId");
+    setState(() {});
   }
 
   @override
@@ -54,8 +92,15 @@ class _LocationScreenState extends State<LocationScreen> {
                   TextButton(
                     onPressed: () async {
                       //Update with location
+
+                      // widget.location = Location();
+                      // await widget.location.getCurrentPosition();
+
+                      // print("Location");
+                      // print(widget.location.latitude);
+                      // print(widget.location.longitude);
+
                       await getWeatherForecast();
-                      setState(() {});
                     },
                     child: Icon(
                       Icons.near_me,
@@ -91,7 +136,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      this.weatherIcon,
                       style: kConditionTextStyle,
                     ),
                   ],

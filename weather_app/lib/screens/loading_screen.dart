@@ -24,11 +24,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
     print(location.longitude);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LocationScreen();
+      return LocationScreen(
+        location: location,
+      );
     }));
   }
-
-//TODO: como tarea, cambiar los valores estaticos de la app por los de la Api y cambiar la temperatura de Kelvin a Celcius
 
   Widget build(BuildContext context) {
     return Scaffold(
