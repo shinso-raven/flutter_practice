@@ -2,6 +2,7 @@ import 'package:convertidor_criptomoneda/Controllers/cripto_converter_controller
 import 'package:convertidor_criptomoneda/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -32,12 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
     var dropDownButton = DropdownButton(
         value: selectedCurrency,
         items: dropDownItems,
-        onChanged: (value) {
-          setState(() {
-            selectedCurrency = value;
-            _controller.UpdateSelectedCurrency(value ?? "");
-            _controller.UpdateEquivalences();
-          });
+        onChanged: (value) async {
+          selectedCurrency = value;
+          _controller.UpdateSelectedCurrency(value ?? "");
+          await _controller.UpdateEquivalences();
+          setState(() {});
         });
 
     return dropDownButton;
@@ -121,7 +121,7 @@ class BitCoinCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
           child: Text(
-            "1 $bitcoin = $equivalence $currency",
+            "1 $bitcoin = ${NumberFormat.simpleCurrency(name: currency).format(equivalence)} $currency",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
