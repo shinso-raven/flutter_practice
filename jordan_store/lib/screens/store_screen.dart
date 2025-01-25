@@ -136,6 +136,7 @@ class _StoreScreenState extends State<StoreScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.grey[200],
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.store),

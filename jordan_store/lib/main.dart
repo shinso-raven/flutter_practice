@@ -18,10 +18,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Colors.black,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-            home: ChangeNotifierProvider(create: (context)=> StoreController(), child: HomeScreen(),)
-        );
+        home: ChangeNotifierProvider(
+          create: (context) => StoreController(),
+          child: HomeScreen(),
+        ));
   }
 }
