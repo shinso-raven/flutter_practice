@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jordan_store/controllers/store_controller.dart';
 import 'package:jordan_store/screens/landing_screen.dart';
 import 'package:jordan_store/screens/store_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _storeController = Provider.of<StoreController>(context);
     return getCurrentScreen();
   }
 }

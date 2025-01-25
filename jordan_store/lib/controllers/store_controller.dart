@@ -1,9 +1,11 @@
-class StoreController {
-  bool onLandingScreen = false;
+import 'package:flutter/material.dart';
+
+class StoreController with ChangeNotifier {
+  bool onLandingScreen = true;
 
   void ShopNow() {
     onLandingScreen = true;
     print(onLandingScreen);
-    print("Shop now");
+    notifyListeners();
   }
 }
